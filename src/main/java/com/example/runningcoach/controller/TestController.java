@@ -1,6 +1,6 @@
-package com.example.runningcoach;
+package com.example.runningcoach.controller;
 
-import com.example.runningcoach.dto.LoginRequest;
+import com.example.runningcoach.dto.LoginRequestDto;
 import com.example.runningcoach.response.BaseResponse;
 import com.example.runningcoach.response.ResponseMessage;
 import com.example.runningcoach.response.StatusCode;
@@ -17,8 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/test")
 public class TestController {
     @PostMapping("/test1")
-    public ResponseEntity dataTest(@RequestBody LoginRequest loginRequest) {
-        return new ResponseEntity(BaseResponse.response(StatusCode.OK, ResponseMessage.SUCCESS, loginRequest),
+    public ResponseEntity dataTest(@RequestBody LoginRequestDto loginRequestDto) {
+        return new ResponseEntity(BaseResponse.response(StatusCode.OK, ResponseMessage.SUCCESS,
+            loginRequestDto),
             HttpStatus.OK);
     }
 
