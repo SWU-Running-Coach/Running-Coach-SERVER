@@ -4,8 +4,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.example.runningcoach.TestController;
-import com.example.runningcoach.dto.LoginRequest;
+import com.example.runningcoach.controller.TestController;
+import com.example.runningcoach.dto.LoginRequestDto;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,12 +24,12 @@ public class ResponseTest {
     @DisplayName("data가 있는 테스트")
     @Test
     void dataTest() throws Exception {
-        LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setEmail("테스트용 이메일");
-        loginRequest.setPassword("테스트용 비밀번호");
+        LoginRequestDto loginRequestDto = new LoginRequestDto();
+        loginRequestDto.setEmail("테스트용 이메일");
+        loginRequestDto.setPassword("테스트용 비밀번호");
 
         Gson gson = new Gson();
-        String content = gson.toJson(loginRequest);
+        String content = gson.toJson(loginRequestDto);
 
         mvc.perform(post("/test/test1")
             .contentType(MediaType.APPLICATION_JSON)

@@ -1,5 +1,6 @@
 package com.example.runningcoach.response;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,8 +10,11 @@ import lombok.Data;
 @Builder
 public class BaseResponse<T> {
 
+    @Schema(description = "상태 코드")
     private int statusCode;
+    @Schema(description = "메시지")
     private String message;
+    @Schema(description = "응답 데이터")
     private T data;
 
     public BaseResponse(final int statusCode, final String message) {
