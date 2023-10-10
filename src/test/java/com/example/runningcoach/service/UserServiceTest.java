@@ -10,6 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
@@ -21,6 +22,9 @@ public class UserServiceTest {
 
 	@Autowired
 	UserRepository userRepository;
+
+	@Autowired
+	PasswordEncoder passwordEncoder;
 
 	@Test
 	@DisplayName("회원가입 테스트")
@@ -39,5 +43,24 @@ public class UserServiceTest {
 		User result = userRepository.findByEmail(signupRequestDto.getEmail()).get();
 		assertThat(result.getEmail()).isEqualTo(signupRequestDto.getEmail());
 		assertThat(result.getNickname()).isEqualTo(signupRequestDto.getNickname());
+	}
+
+	@Test
+	@DisplayName("비밀번호 암호화 테스트")
+	public void passwordTest() {
+		//given
+		SignupRequestDto signupRequestDto = new SignupRequestDto();
+
+		signupRequestDto.setEmail("pwd@test.com");
+		signupRequestDto.setNickname("testNickname");
+		signupRequestDto.setPassword("TestPwd1!");
+
+		//when
+		userService.SignupUser(signupRequestDto);
+
+		//then
+		User result = userRepository.findByEmail(signupRequestDto.getEmail()).get();
+		assertThat(result.getEmail()).isEqualTo(signupRequestDto.getEmail());
+		assertThat(passwordEncoder.matches(signupRequestDto.getPassword(), result.getPassword())).isTrue();
 	}
 }
