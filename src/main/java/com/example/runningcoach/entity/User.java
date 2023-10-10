@@ -1,6 +1,7 @@
 package com.example.runningcoach.entity;
 
 
+import com.example.runningcoach.enums.Role;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -44,9 +45,8 @@ public class User {
 
 	private LocalDateTime deletedDate;
 
-	// TODO: String 타입이 아닌 Role 타입으로 변경
 	@Builder.Default
 	@Column(columnDefinition = "varchar(15) default 'MEMBER'")
-	private String role = "MEMBER";
+	private String role = Role.MEMBER.toString();
 
 }
