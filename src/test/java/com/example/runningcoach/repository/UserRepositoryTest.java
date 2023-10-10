@@ -28,7 +28,7 @@ public class UserRepositoryTest {
 			.status(1)
 			.createdDate(LocalDateTime.now())
 			.deletedDate(LocalDateTime.now())
-			.role("MEMBER").build();
+			.role(Role.MEMBER.toString()).build();
 
 		//when
 		userRepository.save(user);
@@ -58,7 +58,7 @@ public class UserRepositoryTest {
 		assertThat(user).isEqualTo(result);
 		assertThat(result.getImage()).isEqualTo("default_url");
 		assertThat(result.getStatus()).isEqualTo(1);
-		assertThat(result.getRole()).isEqualTo("MEMBER");
+		assertThat(result.getRole()).isEqualTo(Role.MEMBER.toString());
 	}
 
 	@Test
@@ -72,7 +72,7 @@ public class UserRepositoryTest {
 			.image("image")
 			.createdDate(LocalDateTime.now())
 			.deletedDate(LocalDateTime.now())
-			.role("MEMBER").build();
+			.role(Role.MEMBER.toString()).build();
 
 		//when
 		userRepository.save(user);
@@ -124,7 +124,7 @@ public class UserRepositoryTest {
 		//then
 		User result = userRepository.findById(user.getUserId()).get();
 		assertThat(user).isEqualTo(result);
-		assertThat(result.getRole()).isEqualTo("MEMBER");
+		assertThat(result.getRole()).isEqualTo(Role.MEMBER.toString());
 	}
 
 	@Test
@@ -139,7 +139,7 @@ public class UserRepositoryTest {
 		User result = userRepository.findById(user.getUserId()).get();
 		assertThat(result.getImage()).isEqualTo("default_url");
 		assertThat(result.getStatus()).isEqualTo(1);
-		assertThat(result.getRole()).isEqualTo("MEMBER");
+		assertThat(result.getRole()).isEqualTo(Role.MEMBER.toString());
 	}
 
 	@Test
