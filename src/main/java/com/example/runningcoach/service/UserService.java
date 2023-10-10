@@ -18,14 +18,13 @@ public class UserService {
 
 	public void SignupUser(SignupRequestDto signupRequestDto) {
 
-		//TODO: 비밀번호 암호화
 		User user = User.builder()
 				.email(signupRequestDto.getEmail())
 				.password(passwordEncoder.encode(signupRequestDto.getPassword()))
 				.nickname(signupRequestDto.getNickname()).build();
 
 		userRepository.save(user);
-
+		
 		//TODO: 이미 가입된 이메일 오류
 
 	}
