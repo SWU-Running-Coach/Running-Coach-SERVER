@@ -48,30 +48,5 @@ public class User {
 	@Builder.Default
 	@Column(columnDefinition = "varchar(15) default 'MEMBER'")
 	private String role = "MEMBER";
-//
-//	@Builder
-//	public User(String email, String password, String nickname, String image, int status, LocalDateTime createdDate, LocalDateTime deletedDate, String role) {
-//		this.email = email;
-//		this.password = password;
-//		this.nickname = nickname;
-//		this.image = image;
-//		this.status = status;
-//		this.createdDate = createdDate;
-//		this.deletedDate = deletedDate;
-//		this.role = role;
-//	}
-//
-//	@Builder
-//	public User(String email, String password, String nickname, LocalDateTime createdDate, LocalDateTime deletedDate) {
-//		this.image = "default_url";
-//		this.status = 1;
-//		this.role = "MEMBER";
-//
-//		this.email = email;
-//		this.password = password;
-//		this.nickname = nickname;
-//		this.createdDate = createdDate;
-//		this.deletedDate = deletedDate;
-//	}
 
 }
