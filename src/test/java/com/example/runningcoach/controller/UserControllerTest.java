@@ -48,4 +48,38 @@ public class UserControllerTest {
 		//then
 		assertThat(result.andReturn().getResponse().getStatus()).isEqualTo(HttpStatus.CREATED.value());
 	}
+
+	@DisplayName("/users/join 이메일 중복 테스트")
+	@Test
+	public void duplicateSignUp() throws Exception {
+		//given
+		SignupRequestDto signupRequestDto1 = new SignupRequestDto();
+
+		signupRequestDto1.setEmail("duplicate@test.com");
+		signupRequestDto1.setNickname("controller1");
+		signupRequestDto1.setPassword("Controller!23");
+
+		String data1 = objectMapper.writeValueAsString(signupRequestDto1);
+
+		SignupRequestDto signupRequestDto2 = new SignupRequestDto();
+
+		signupRequestDto2.setEmail("duplicate@test.com");
+		signupRequestDto2.setNickname("controller1");
+		signupRequestDto2.setPassword("Controller!23");
+
+		String data2 = objectMapper.writeValueAsString(signupRequestDto2);
+		//when
+		mockMvc.perform(MockMvcRequestBuilders.get("/users/join")
+				.content(data1)
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON));
+
+		ResultActions result = mockMvc
+			.perform(MockMvcRequestBuilders.get("/users/join")
+				.content(data2)
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON));
+		//then
+		assertThat(result.andReturn().getResponse().getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+	}
 }
