@@ -82,4 +82,70 @@ public class UserControllerTest {
 		//then
 		assertThat(result.andReturn().getResponse().getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
 	}
+
+	@DisplayName("/users/join 빈칸 테스트")
+	@Test
+	public void EmptySignUp() throws Exception {
+		//given
+		SignupRequestDto signupRequestDto = new SignupRequestDto();
+
+		signupRequestDto.setEmail("empty@test.com");
+		signupRequestDto.setNickname("controller");
+
+		String data = objectMapper.writeValueAsString(signupRequestDto);
+
+		//when
+		ResultActions result = mockMvc
+			.perform(MockMvcRequestBuilders.get("/users/join")
+				.content(data)
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON));
+		//then
+		assertThat(result.andReturn().getResponse().getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+	}
+
+	@DisplayName("/users/join 비밀번호 형식 테스트")
+	@Test
+	public void PwdSignUp() throws Exception {
+		//given
+		SignupRequestDto signupRequestDto = new SignupRequestDto();
+
+		signupRequestDto.setEmail("pwd@test.com");
+		signupRequestDto.setNickname("controller");
+		signupRequestDto.setPassword("pw");
+
+		String data = objectMapper.writeValueAsString(signupRequestDto);
+
+		//when
+		ResultActions result = mockMvc
+			.perform(MockMvcRequestBuilders.get("/users/join")
+				.content(data)
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON));
+		//then
+		assertThat(result.andReturn().getResponse().getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+	}
+
+	@DisplayName("/users/join 이메일 형식 테스트")
+	@Test
+	public void EmailSignUp() throws Exception {
+		//given
+		SignupRequestDto signupRequestDto = new SignupRequestDto();
+
+		signupRequestDto.setEmail("email");
+		signupRequestDto.setNickname("controller");
+		signupRequestDto.setPassword("Controller!12");
+
+		String data = objectMapper.writeValueAsString(signupRequestDto);
+
+		//when
+		ResultActions result = mockMvc
+			.perform(MockMvcRequestBuilders.get("/users/join")
+				.content(data)
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON));
+		//then
+		assertThat(result.andReturn().getResponse().getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+	}
+
 }
