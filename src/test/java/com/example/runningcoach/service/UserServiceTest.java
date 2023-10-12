@@ -34,7 +34,7 @@ public class UserServiceTest {
 
 		signupRequestDto.setEmail("test@test.com");
 		signupRequestDto.setNickname("testNickname");
-		signupRequestDto.setPassword("TestPwd1!");
+		signupRequestDto.setPassword("TestPwd1");
 
 		//when
 		userService.SignupUser(signupRequestDto);
@@ -53,7 +53,7 @@ public class UserServiceTest {
 
 		signupRequestDto.setEmail("pwd@test.com");
 		signupRequestDto.setNickname("testNickname");
-		signupRequestDto.setPassword("TestPwd1!");
+		signupRequestDto.setPassword("TestPwd1");
 
 		//when
 		userService.SignupUser(signupRequestDto);
