@@ -41,7 +41,7 @@ public class UserControllerTest {
 
 		//when
 		ResultActions result = mockMvc
-							.perform(MockMvcRequestBuilders.get("/users/join")
+							.perform(MockMvcRequestBuilders.post("/users/join")
 															.content(data)
 															.contentType(MediaType.APPLICATION_JSON)
 															.accept(MediaType.APPLICATION_JSON));
@@ -69,13 +69,13 @@ public class UserControllerTest {
 
 		String data2 = objectMapper.writeValueAsString(signupRequestDto2);
 		//when
-		mockMvc.perform(MockMvcRequestBuilders.get("/users/join")
+		mockMvc.perform(MockMvcRequestBuilders.post("/users/join")
 				.content(data1)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON));
 
 		ResultActions result = mockMvc
-			.perform(MockMvcRequestBuilders.get("/users/join")
+			.perform(MockMvcRequestBuilders.post("/users/join")
 				.content(data2)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON));
@@ -96,7 +96,7 @@ public class UserControllerTest {
 
 		//when
 		ResultActions result = mockMvc
-			.perform(MockMvcRequestBuilders.get("/users/join")
+			.perform(MockMvcRequestBuilders.post("/users/join")
 				.content(data)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON));
@@ -118,7 +118,7 @@ public class UserControllerTest {
 
 		//when
 		ResultActions result = mockMvc
-			.perform(MockMvcRequestBuilders.get("/users/join")
+			.perform(MockMvcRequestBuilders.post("/users/join")
 				.content(data)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON));
@@ -140,7 +140,7 @@ public class UserControllerTest {
 
 		//when
 		ResultActions result = mockMvc
-			.perform(MockMvcRequestBuilders.get("/users/join")
+			.perform(MockMvcRequestBuilders.post("/users/join")
 				.content(data)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON));
