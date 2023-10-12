@@ -1,5 +1,6 @@
 package com.example.runningcoach.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,12 +16,14 @@ public class BaseResponse<T> {
     @Schema(description = "메시지")
     private String message;
     @Schema(description = "응답 데이터")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private T data;
 
     public BaseResponse(final int statusCode, final String message) {
         this.statusCode = statusCode;
         this.message = message;
     }
+
 
     public static<T> BaseResponse<T> response(final int statusCode, final String message) {
         return response(statusCode, message, null);
