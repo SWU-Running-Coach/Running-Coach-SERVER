@@ -4,6 +4,8 @@ public class ResponseMessage {
     //필요시 추가 작성
     public static final String SUCCESS = "성공";
 
+    public static final String EMPTY_VALUE = "값이 비어있습니다";
+
     //로그인
     public static final String EMPTY_EMAIL = "이메일을 입력해주세요";
     public static final String EMPTY_PASSWORD = "비밀번호를 입력해주세요";

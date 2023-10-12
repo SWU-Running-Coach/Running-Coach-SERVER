@@ -1,5 +1,6 @@
 package com.example.runningcoach.exception;
 
+import com.example.runningcoach.exception.custom.EmptyException;
 import com.example.runningcoach.exception.custom.UserConflictException;
 import com.example.runningcoach.response.BaseResponse;
 import com.example.runningcoach.response.ResponseMessage;
@@ -17,6 +18,13 @@ public class CustomExceptionHandler {
 	public ResponseEntity handleUserConflictException(UserConflictException e) {
 		return new ResponseEntity(
 			BaseResponse.response(StatusCode.BAD_REQUEST, ResponseMessage.CONFLICT_EMAIL),
+			HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler
+	public ResponseEntity handleEmptyException(EmptyException e) {
+		return new ResponseEntity(
+			BaseResponse.response(StatusCode.BAD_REQUEST, ResponseMessage.EMPTY_VALUE),
 			HttpStatus.BAD_REQUEST);
 	}
 }
