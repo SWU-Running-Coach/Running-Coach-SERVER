@@ -35,7 +35,7 @@ public class UserControllerTest {
 
 		signupRequestDto.setEmail("controller@test.com");
 		signupRequestDto.setNickname("controller1");
-		signupRequestDto.setPassword("Controller!23");
+		signupRequestDto.setPassword("Controller23");
 
 		String data = objectMapper.writeValueAsString(signupRequestDto);
 
@@ -57,7 +57,7 @@ public class UserControllerTest {
 
 		signupRequestDto1.setEmail("duplicate@test.com");
 		signupRequestDto1.setNickname("controller1");
-		signupRequestDto1.setPassword("Controller!23");
+		signupRequestDto1.setPassword("Controller23");
 
 		String data1 = objectMapper.writeValueAsString(signupRequestDto1);
 
@@ -65,7 +65,7 @@ public class UserControllerTest {
 
 		signupRequestDto2.setEmail("duplicate@test.com");
 		signupRequestDto2.setNickname("controller1");
-		signupRequestDto2.setPassword("Controller!23");
+		signupRequestDto2.setPassword("Controller23");
 
 		String data2 = objectMapper.writeValueAsString(signupRequestDto2);
 		//when
@@ -134,7 +134,7 @@ public class UserControllerTest {
 
 		signupRequestDto.setEmail("email");
 		signupRequestDto.setNickname("controller");
-		signupRequestDto.setPassword("Controller!12");
+		signupRequestDto.setPassword("Controller12");
 
 		String data = objectMapper.writeValueAsString(signupRequestDto);
 
