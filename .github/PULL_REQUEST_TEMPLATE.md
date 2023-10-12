@@ -7,6 +7,9 @@
 - [ ] 파일 or 폴더명 수정
 - [ ] 파일 or 폴더 삭제
 
+## 📰 관련 이슈
+<!---- 아래에 주소에 이슈번호를 넣어주세요! ---->
+<!---- ex)https://github.com/SWU-Running-Coach/Running_Coach_SERVER/issues/ ---->
 
 ## 📝 PR 내용
 <!---- 해당 PR에 어떤 작업을 하였는지 설명해주세요. ---->
