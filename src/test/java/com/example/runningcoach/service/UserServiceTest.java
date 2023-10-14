@@ -232,7 +232,7 @@ public class UserServiceTest {
 		Optional<User> user = userRepository.findByEmail(email);
 		assertEquals(user.get().getNickname(), updateUserRequestDto.getNickname());
 		assertEquals(user.get().getImage(), updateUserRequestDto.getProfile());
-		assertThat(passwordEncoder.matches(user.get().getNickname(), updateUserRequestDto.getNickname())).isTrue();
+		assertThat(passwordEncoder.matches(updateUserRequestDto.getPassword(), user.get().getPassword())).isTrue();
 	}
 
 	@Test
@@ -291,7 +291,7 @@ public class UserServiceTest {
 
 		Optional<User> user = userRepository.findByEmail(email);
 		assertEquals(user.get().getNickname(), updateUserRequestDto.getNickname());
-		assertThat(passwordEncoder.matches(user.get().getNickname(), updateUserRequestDto.getNickname())).isTrue();
+		assertThat(passwordEncoder.matches(updateUserRequestDto.getPassword(), user.get().getPassword())).isTrue();
 	}
 
 	@Test
