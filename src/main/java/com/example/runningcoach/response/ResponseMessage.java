@@ -20,6 +20,7 @@ public class ResponseMessage {
 
     //마이페이지
     public static final String NO_EXIST_EMAIL = "존재하지 않는 이메일입니다";
+    public static final String SAME_PASSWORD = "이전과 동일한 비밀번호입니다";
 
     public static final String BAD_REQUEST = "잘못된 요청입니다";
 }
