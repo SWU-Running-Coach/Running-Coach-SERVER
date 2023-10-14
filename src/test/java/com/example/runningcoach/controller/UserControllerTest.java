@@ -304,8 +304,7 @@ public class UserControllerTest {
 		String email = "mypagecc@test.com";
 
 		ResultActions result = mockMvc
-			.perform(MockMvcRequestBuilders.get("/users")
-				.param(email)
+			.perform(MockMvcRequestBuilders.get("/users/{email}", email)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON));
 
@@ -321,8 +320,7 @@ public class UserControllerTest {
 
 		//when
 		ResultActions result = mockMvc
-			.perform(MockMvcRequestBuilders.get("/users")
-				.param(email)
+			.perform(MockMvcRequestBuilders.get("/users/{email}", email)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON));
 
