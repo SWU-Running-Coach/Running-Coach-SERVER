@@ -1,13 +1,14 @@
 package com.example.runningcoach.service;
 
 import com.example.runningcoach.dto.LoginRequestDto;
+import com.example.runningcoach.dto.MypageResponseDto;
 import com.example.runningcoach.dto.SignupRequestDto;
 import com.example.runningcoach.entity.User;
 import com.example.runningcoach.exception.custom.FailLoginException;
 import com.example.runningcoach.exception.custom.LeaveUserException;
+import com.example.runningcoach.exception.custom.NoExistEmailException;
 import com.example.runningcoach.exception.custom.UserConflictException;
 import com.example.runningcoach.repository.UserRepository;
-import com.example.runningcoach.response.BaseResponse;
 import com.example.runningcoach.response.ResponseMessage;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,5 +57,21 @@ public class UserService {
 		if (user.get().getStatus() == 0) {
 			throw new LeaveUserException(ResponseMessage.LEAVE_USER);
 		}
+	}
+
+	public MypageResponseDto myPage(String email) {
+		Optional<User> user = userRepository.findByEmail(email);
+
+		//존재하지 않는 이메일
+		if (user.isEmpty()) {
+			throw new NoExistEmailException(ResponseMessage.NO_EXIST_EMAIL);
+		}
+		MypageResponseDto mypageResponseDto = new MypageResponseDto();
+
+		mypageResponseDto.setEmail(user.get().getEmail());
+		mypageResponseDto.setNickname(user.get().getNickname());
+		mypageResponseDto.setProfile(user.get().getImage());
+
+		return mypageResponseDto;
 	}
 }

@@ -18,5 +18,8 @@ public class ResponseMessage {
     public static final String CONFLICT_EMAIL = "중복된 이메일입니다";
 
 
+    //마이페이지
+    public static final String NO_EXIST_EMAIL = "존재하지 않는 이메일입니다";
+
     public static final String BAD_REQUEST = "잘못된 요청입니다";
 }

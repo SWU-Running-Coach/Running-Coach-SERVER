@@ -3,6 +3,7 @@ package com.example.runningcoach.exception;
 import com.example.runningcoach.exception.custom.EmptyException;
 import com.example.runningcoach.exception.custom.FailLoginException;
 import com.example.runningcoach.exception.custom.LeaveUserException;
+import com.example.runningcoach.exception.custom.NoExistEmailException;
 import com.example.runningcoach.exception.custom.UserConflictException;
 import com.example.runningcoach.response.BaseResponse;
 import com.example.runningcoach.response.ResponseMessage;
@@ -43,5 +44,12 @@ public class CustomExceptionHandler {
 		return new ResponseEntity(
 			BaseResponse.response(StatusCode.FORBIDDEN, e.getMessage()),
 			HttpStatus.FORBIDDEN);
+	}
+
+	@ExceptionHandler
+	public ResponseEntity handleNoExistEmailException(NoExistEmailException e) {
+		return new ResponseEntity(
+			BaseResponse.response(StatusCode.BAD_REQUEST, e.getMessage()),
+			HttpStatus.BAD_REQUEST);
 	}
 }
