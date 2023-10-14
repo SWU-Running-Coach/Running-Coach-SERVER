@@ -282,4 +282,51 @@ public class UserControllerTest {
 		//then
 		assertThat(result.andReturn().getResponse().getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
 	}
+
+	@DisplayName("/users 성공 테스트")
+	@Test
+	public void myPage() throws Exception {
+		//given
+		SignupRequestDto signupRequestDto = new SignupRequestDto();
+
+		signupRequestDto.setEmail("mypagecc@test.com");
+		signupRequestDto.setNickname("mypage");
+		signupRequestDto.setPassword("Pwdsqwd12");
+
+		String signUp = objectMapper.writeValueAsString(signupRequestDto);
+
+		mockMvc.perform(MockMvcRequestBuilders.post("/users/join")
+			.content(signUp)
+			.contentType(MediaType.APPLICATION_JSON)
+			.accept(MediaType.APPLICATION_JSON));
+
+		//when
+		String email = "mypagecc@test.com";
+
+		ResultActions result = mockMvc
+			.perform(MockMvcRequestBuilders.get("/users")
+				.param(email)
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON));
+
+		//then
+		assertThat(result.andReturn().getResponse().getStatus()).isEqualTo(HttpStatus.OK.value());
+	}
+
+	@DisplayName("/users 존재하지 않는 이메일 테스트")
+	@Test
+	public void noEmailMyPage() throws Exception {
+		//given
+		String email = "mypageemail@test.com";
+
+		//when
+		ResultActions result = mockMvc
+			.perform(MockMvcRequestBuilders.get("/users")
+				.param(email)
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON));
+
+		//then
+		assertThat(result.andReturn().getResponse().getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+	}
 }
