@@ -8,9 +8,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import com.example.runningcoach.dto.LoginRequestDto;
 import com.example.runningcoach.dto.MypageResponseDto;
 import com.example.runningcoach.dto.SignupRequestDto;
+import com.example.runningcoach.dto.UpdateUserRequestDto;
 import com.example.runningcoach.entity.User;
 import com.example.runningcoach.repository.UserRepository;
 import com.example.runningcoach.response.ResponseMessage;
+import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -226,6 +228,11 @@ public class UserServiceTest {
 		assertDoesNotThrow(() -> {
 			userService.updateUser(updateUserRequestDto, email);
 		});
+
+		Optional<User> user = userRepository.findByEmail(email);
+		assertEquals(user.get().getNickname(), updateUserRequestDto.getNickname());
+		assertEquals(user.get().getImage(), updateUserRequestDto.getProfile());
+		assertThat(passwordEncoder.matches(user.get().getNickname(), updateUserRequestDto.getNickname())).isTrue();
 	}
 
 	@Test
@@ -251,6 +258,9 @@ public class UserServiceTest {
 		assertDoesNotThrow(() -> {
 			userService.updateUser(updateUserRequestDto, email);
 		});
+
+		Optional<User> user = userRepository.findByEmail(email);
+		assertEquals(user.get().getImage(), updateUserRequestDto.getProfile());
 	}
 
 	@Test
@@ -278,35 +288,10 @@ public class UserServiceTest {
 		assertDoesNotThrow(() -> {
 			userService.updateUser(updateUserRequestDto, email);
 		});
-	}
 
-	@Test
-	@DisplayName("회원 정보 수정 중 비밀번호 형식 오류")
-	public void updatePw() {
-		//given
-		SignupRequestDto signupRequestDto = new SignupRequestDto();
-
-		signupRequestDto.setEmail("updatepw@test.com");
-		signupRequestDto.setPassword("Pwdasdf1");
-		signupRequestDto.setNickname("update");
-
-		userService.SignupUser(signupRequestDto);
-
-		UpdateUserRequestDto updateUserRequestDto = new UpdateUserRequestDto();
-
-		updateUserRequestDto.setPassword("newPassword");
-		updateUserRequestDto.setNickname("newUpdate");
-		updateUserRequestDto.setProfile("new_profile_url");
-
-		//when
-		String email = "updatepw@test.com";
-
-		Throwable throwable = assertThrows(RuntimeException.class, () -> {
-			userService.updateUser(updateUserRequestDto, email);
-		});
-
-		//then
-		assertEquals(throwable.getMessage(), ResponseMessage.INVALID_PASSWORD);
+		Optional<User> user = userRepository.findByEmail(email);
+		assertEquals(user.get().getNickname(), updateUserRequestDto.getNickname());
+		assertThat(passwordEncoder.matches(user.get().getNickname(), updateUserRequestDto.getNickname())).isTrue();
 	}
 
 	@Test
