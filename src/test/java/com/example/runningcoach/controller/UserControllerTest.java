@@ -2,6 +2,7 @@ package com.example.runningcoach.controller;
 
 import com.example.runningcoach.dto.LoginRequestDto;
 import com.example.runningcoach.dto.SignupRequestDto;
+import com.example.runningcoach.dto.UpdateUserRequestDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -321,6 +322,142 @@ public class UserControllerTest {
 		//when
 		ResultActions result = mockMvc
 			.perform(MockMvcRequestBuilders.get("/users/{email}", email)
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON));
+
+		//then
+		assertThat(result.andReturn().getResponse().getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+	}
+
+	@DisplayName("/users/info 회원수정 성공 테스트")
+	@Test
+	public void UpdateUser() throws Exception {
+		//given
+		SignupRequestDto signupRequestDto = new SignupRequestDto();
+
+		String email = "updatecontroller@test.com";
+
+		signupRequestDto.setEmail(email);
+		signupRequestDto.setNickname("update");
+		signupRequestDto.setPassword("Pwdsqwd12");
+
+		String signUp = objectMapper.writeValueAsString(signupRequestDto);
+
+		mockMvc.perform(MockMvcRequestBuilders.post("/users/join")
+			.content(signUp)
+			.contentType(MediaType.APPLICATION_JSON)
+			.accept(MediaType.APPLICATION_JSON));
+
+		//when
+		UpdateUserRequestDto updateUserRequestDto = new UpdateUserRequestDto();
+
+		updateUserRequestDto.setNickname("newUpdate");
+		updateUserRequestDto.setProfile("newProfile");
+
+		String update = objectMapper.writeValueAsString(updateUserRequestDto);
+
+		ResultActions result = mockMvc
+			.perform(MockMvcRequestBuilders.patch("/users/info/{email}", email)
+				.content(update)
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON));
+
+		//then
+		assertThat(result.andReturn().getResponse().getStatus()).isEqualTo(HttpStatus.OK.value());
+	}
+
+	@DisplayName("/users/info 비밀번호 형식 오류 테스트")
+	@Test
+	public void UpdatePwderror() throws Exception {
+		//given
+		SignupRequestDto signupRequestDto = new SignupRequestDto();
+
+		String email = "updatecontrollepwr@test.com";
+
+		signupRequestDto.setEmail(email);
+		signupRequestDto.setNickname("update");
+		signupRequestDto.setPassword("Pwdsqwd12");
+
+		String signUp = objectMapper.writeValueAsString(signupRequestDto);
+
+		mockMvc.perform(MockMvcRequestBuilders.post("/users/join")
+			.content(signUp)
+			.contentType(MediaType.APPLICATION_JSON)
+			.accept(MediaType.APPLICATION_JSON));
+
+		//when
+		UpdateUserRequestDto updateUserRequestDto = new UpdateUserRequestDto();
+
+		updateUserRequestDto.setNickname("newUpdate");
+		updateUserRequestDto.setPassword("pw");
+
+		String update = objectMapper.writeValueAsString(updateUserRequestDto);
+
+		ResultActions result = mockMvc
+			.perform(MockMvcRequestBuilders.patch("/users/info/{email}", email)
+				.content(update)
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON));
+
+		//then
+		assertThat(result.andReturn().getResponse().getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+	}
+
+	@DisplayName("/users/info 존재하지 않는 이메일 테스트")
+	@Test
+	public void UpdateNoExistEmail() throws Exception {
+		//given
+		String email = "updatecontrollerno@test.com";
+
+		UpdateUserRequestDto updateUserRequestDto = new UpdateUserRequestDto();
+
+		updateUserRequestDto.setNickname("newUpdate");
+		updateUserRequestDto.setProfile("newProfile");
+
+		String update = objectMapper.writeValueAsString(updateUserRequestDto);
+
+		//when
+		ResultActions result = mockMvc
+			.perform(MockMvcRequestBuilders.patch("/users/info/{email}", email)
+				.content(update)
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON));
+
+		//then
+		assertThat(result.andReturn().getResponse().getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+	}
+
+	@DisplayName("/users/info 동일한 비밀번호 테스트")
+	@Test
+	public void UpdateSamePw() throws Exception {
+		//given
+		SignupRequestDto signupRequestDto = new SignupRequestDto();
+
+		String email = "updatecontroller@test.com";
+
+		signupRequestDto.setEmail(email);
+		signupRequestDto.setNickname("update");
+		signupRequestDto.setPassword("Pwdsqwd12");
+
+		String signUp = objectMapper.writeValueAsString(signupRequestDto);
+
+		mockMvc.perform(MockMvcRequestBuilders.post("/users/join")
+			.content(signUp)
+			.contentType(MediaType.APPLICATION_JSON)
+			.accept(MediaType.APPLICATION_JSON));
+
+		//when
+		UpdateUserRequestDto updateUserRequestDto = new UpdateUserRequestDto();
+
+		updateUserRequestDto.setNickname("newUpdate");
+		updateUserRequestDto.setProfile("newProfile");
+		updateUserRequestDto.setPassword("Pwdsqwd12");
+
+		String update = objectMapper.writeValueAsString(updateUserRequestDto);
+
+		ResultActions result = mockMvc
+			.perform(MockMvcRequestBuilders.patch("/users/info/{email}", email)
+				.content(update)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON));
 
