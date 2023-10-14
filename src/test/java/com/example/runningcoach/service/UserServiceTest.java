@@ -160,4 +160,48 @@ public class UserServiceTest {
 		//then
 		assertEquals(throwable.getMessage(), ResponseMessage.LEAVE_USER);
 	}
+
+	@Test
+	@DisplayName("마이페이지 불러오기")
+	public void myPage() {
+		//given
+		SignupRequestDto signupRequestDto = new SignupRequestDto();
+		signupRequestDto.setEmail("mypage@test.com");
+		signupRequestDto.setPassword("Pwdasdf1");
+		signupRequestDto.setNickname("mypage");
+
+		userService.SignupUser(signupRequestDto);
+
+		//when
+		MypageResponseDto mypageResponseDto = new MyPageResponseDto();
+
+		assertDoesNotThrow(() -> {
+			mypageResponseDto = userService.myPage("mypage@test.com");
+		});
+
+		//then
+		assertEquals(mypageResponseDto.getNickname(), signupRequestDto.getNickname());
+	}
+
+	@Test
+	@DisplayName("마이페이지 존재하지 않는 이메일")
+	public void myPage() {
+		//given
+		SignupRequestDto signupRequestDto = new SignupRequestDto();
+		signupRequestDto.setEmail("mypage@test.com");
+		signupRequestDto.setPassword("Pwdasdf1");
+		signupRequestDto.setNickname("mypage");
+
+		userService.SignupUser(signupRequestDto);
+
+		//when
+		MypageResponseDto mypageResponseDto = new MyPageResponseDto();
+
+		Throwable throwable = assertThrows(RuntimeException.class, () -> {
+			mypageResponseDto = userService.myPage("my@test.com");
+		});
+
+		//then
+		assertEquals(throwable.getMessage(), ResponseMessage.NO_EXIST_EMAIL);
+	}
 }
