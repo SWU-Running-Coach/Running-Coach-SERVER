@@ -12,6 +12,7 @@ public class ResponseMessage {
     public static final String INVALID_EMAIL = "올바르지 않은 이메일입니다";
     public static final String INVALID_PASSWORD = "올바르지 않은 비밀번호입니다";
     public static final String FAIL_LOGIN = "로그인에 실패했습니다";
+    public static final String LEAVE_USER = "탈퇴한 회원입니다";
 
     //회원가입
     public static final String CONFLICT_EMAIL = "중복된 이메일입니다";
