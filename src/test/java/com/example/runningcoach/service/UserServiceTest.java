@@ -200,4 +200,161 @@ public class UserServiceTest {
 		//then
 		assertEquals(throwable.getMessage(), ResponseMessage.NO_EXIST_EMAIL);
 	}
+
+	@Test
+	@DisplayName("회원 정보 수정 pw, nickname, profile 성공")
+	public void updateUserAll() {
+		//given
+		SignupRequestDto signupRequestDto = new SignupRequestDto();
+
+		signupRequestDto.setEmail("update@test.com");
+		signupRequestDto.setPassword("Pwdasdf1");
+		signupRequestDto.setNickname("update");
+
+		userService.SignupUser(signupRequestDto);
+
+		UpdateUserRequestDto updateUserRequestDto = new UpdateUserRequestDto();
+
+		updateUserRequestDto.setPassword("newPassword");
+		updateUserRequestDto.setNickname("newUpdate1");
+		updateUserRequestDto.setProfile("new_profile_url");
+
+		//when
+		String email = "update@test.com";
+
+		//then
+		assertDoesNotThrow(() -> {
+			userService.updateUser(updateUserRequestDto, email);
+		});
+	}
+
+	@Test
+	@DisplayName("회원 정보 수정 profile만 수정 성공")
+	public void updateUserProfile() {
+		//given
+		SignupRequestDto signupRequestDto = new SignupRequestDto();
+
+		signupRequestDto.setEmail("update_1@test.com");
+		signupRequestDto.setPassword("Pwdasdf1");
+		signupRequestDto.setNickname("update1");
+
+		userService.SignupUser(signupRequestDto);
+
+		UpdateUserRequestDto updateUserRequestDto = new UpdateUserRequestDto();
+
+		updateUserRequestDto.setProfile("new_profile_url1");
+
+		//when
+		String email = "update_1@test.com";
+
+		//then
+		assertDoesNotThrow(() -> {
+			userService.updateUser(updateUserRequestDto, email);
+		});
+	}
+
+	@Test
+	@DisplayName("회원 정보 수정 pw, nickname 수정 성공")
+	public void updateUserTwo() {
+		//given
+		SignupRequestDto signupRequestDto = new SignupRequestDto();
+
+		signupRequestDto.setEmail("update2@test.com");
+		signupRequestDto.setPassword("Pwdasdf1");
+		signupRequestDto.setNickname("update");
+
+		userService.SignupUser(signupRequestDto);
+
+		UpdateUserRequestDto updateUserRequestDto = new UpdateUserRequestDto();
+
+		updateUserRequestDto.setPassword("newPassword2");
+		updateUserRequestDto.setNickname("newUpdate2");
+
+
+		//when
+		String email = "update2@test.com";
+
+		//then
+		assertDoesNotThrow(() -> {
+			userService.updateUser(updateUserRequestDto, email);
+		});
+	}
+
+	@Test
+	@DisplayName("회원 정보 수정 중 비밀번호 형식 오류")
+	public void updatePw() {
+		//given
+		SignupRequestDto signupRequestDto = new SignupRequestDto();
+
+		signupRequestDto.setEmail("updatepw@test.com");
+		signupRequestDto.setPassword("Pwdasdf1");
+		signupRequestDto.setNickname("update");
+
+		userService.SignupUser(signupRequestDto);
+
+		UpdateUserRequestDto updateUserRequestDto = new UpdateUserRequestDto();
+
+		updateUserRequestDto.setPassword("newPassword");
+		updateUserRequestDto.setNickname("newUpdate");
+		updateUserRequestDto.setProfile("new_profile_url");
+
+		//when
+		String email = "updatepw@test.com";
+
+		Throwable throwable = assertThrows(RuntimeException.class, () -> {
+			userService.updateUser(updateUserRequestDto, email);
+		});
+
+		//then
+		assertEquals(throwable.getMessage(), ResponseMessage.INVALID_PASSWORD);
+	}
+
+	@Test
+	@DisplayName("회원 정보 수정 중 이전과 동일한 비밀번호로 수정")
+	public void updateSamePw() {
+		//given
+		SignupRequestDto signupRequestDto = new SignupRequestDto();
+
+		signupRequestDto.setEmail("update@test.com");
+		signupRequestDto.setPassword("Pwdasdf1");
+		signupRequestDto.setNickname("update");
+
+		userService.SignupUser(signupRequestDto);
+
+		UpdateUserRequestDto updateUserRequestDto = new UpdateUserRequestDto();
+
+		updateUserRequestDto.setPassword("Pwdasdf1");
+		updateUserRequestDto.setNickname("newUpdate");
+		updateUserRequestDto.setProfile("new_profile_url");
+
+		//when
+		String email = "update@test.com";
+
+		Throwable throwable = assertThrows(RuntimeException.class, () -> {
+			userService.updateUser(updateUserRequestDto, email);
+		});
+
+		//then
+		assertEquals(throwable.getMessage(), ResponseMessage.SAME_PASSWORD);
+	}
+
+	@Test
+	@DisplayName("회원 정보 수정 중 존재하지 않는 이메일")
+	public void updateNoEmail() {
+		UpdateUserRequestDto updateUserRequestDto = new UpdateUserRequestDto();
+
+		updateUserRequestDto.setPassword("Pwdasdf1");
+		updateUserRequestDto.setNickname("newUpdate");
+		updateUserRequestDto.setProfile("new_profile_url");
+
+		//when
+		String email = "updatetest@test.com";
+
+		Throwable throwable = assertThrows(RuntimeException.class, () -> {
+			userService.updateUser(updateUserRequestDto, email);
+		});
+
+		//then
+		assertEquals(throwable.getMessage(), ResponseMessage.NO_EXIST_EMAIL);
+	}
 }
