@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.example.runningcoach.dto.LoginRequestDto;
+import com.example.runningcoach.dto.MypageResponseDto;
 import com.example.runningcoach.dto.SignupRequestDto;
 import com.example.runningcoach.entity.User;
 import com.example.runningcoach.repository.UserRepository;
@@ -173,19 +174,16 @@ public class UserServiceTest {
 		userService.SignupUser(signupRequestDto);
 
 		//when
-		MypageResponseDto mypageResponseDto = new MyPageResponseDto();
-
-		assertDoesNotThrow(() -> {
-			mypageResponseDto = userService.myPage("mypage@test.com");
-		});
-
 		//then
-		assertEquals(mypageResponseDto.getNickname(), signupRequestDto.getNickname());
+		assertDoesNotThrow(() -> {
+			MypageResponseDto mypageResponseDto = userService.myPage("mypage@test.com");
+			assertEquals(mypageResponseDto.getNickname(), signupRequestDto.getNickname());
+		});
 	}
 
 	@Test
 	@DisplayName("마이페이지 존재하지 않는 이메일")
-	public void myPage() {
+	public void NoEmailmyPage() {
 		//given
 		SignupRequestDto signupRequestDto = new SignupRequestDto();
 		signupRequestDto.setEmail("mypage@test.com");
@@ -195,10 +193,8 @@ public class UserServiceTest {
 		userService.SignupUser(signupRequestDto);
 
 		//when
-		MypageResponseDto mypageResponseDto = new MyPageResponseDto();
-
 		Throwable throwable = assertThrows(RuntimeException.class, () -> {
-			mypageResponseDto = userService.myPage("my@test.com");
+			MypageResponseDto mypageResponseDto = userService.myPage("my@test.com");
 		});
 
 		//then
