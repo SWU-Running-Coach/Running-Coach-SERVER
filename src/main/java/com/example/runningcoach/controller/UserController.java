@@ -1,6 +1,7 @@
 package com.example.runningcoach.controller;
 
 import com.example.runningcoach.dto.LoginRequestDto;
+import com.example.runningcoach.dto.MypageResponseDto;
 import com.example.runningcoach.dto.SignupRequestDto;
 import com.example.runningcoach.response.BaseResponse;
 import com.example.runningcoach.response.ResponseMessage;
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,6 +55,15 @@ public class UserController {
 		userService.LoginUser(loginRequestDto);
 
 		return new ResponseEntity(BaseResponse.response(StatusCode.OK, ResponseMessage.SUCCESS),
+			HttpStatus.OK);
+	}
+
+	//TODO: param대신 jwt 토큰 설정
+	@GetMapping("/{email}")
+	public ResponseEntity myPage(@PathVariable String email) {
+		MypageResponseDto mypageResponseDto = userService.myPage(email);
+
+		return new ResponseEntity(BaseResponse.response(StatusCode.OK, ResponseMessage.SUCCESS, mypageResponseDto),
 			HttpStatus.OK);
 	}
 }
