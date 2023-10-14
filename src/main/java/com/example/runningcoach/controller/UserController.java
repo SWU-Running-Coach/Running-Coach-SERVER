@@ -1,5 +1,6 @@
 package com.example.runningcoach.controller;
 
+import com.example.runningcoach.dto.LoginRequestDto;
 import com.example.runningcoach.dto.SignupRequestDto;
 import com.example.runningcoach.response.BaseResponse;
 import com.example.runningcoach.response.ResponseMessage;
@@ -36,5 +37,21 @@ public class UserController {
 
 		return new ResponseEntity(BaseResponse.response(StatusCode.CREATED, ResponseMessage.SUCCESS),
 			HttpStatus.CREATED);
+	}
+
+	//TODO: jwt 토큰 반환
+	@PostMapping("/login")
+	public ResponseEntity login(@RequestBody @Valid LoginRequestDto loginRequestDto, BindingResult bindingResult) {
+		//valid check
+		if (bindingResult.hasErrors()) {
+			return new ResponseEntity(BaseResponse.response(StatusCode.BAD_REQUEST, Objects.requireNonNull(
+				bindingResult.getFieldError()).getDefaultMessage()),
+				HttpStatus.BAD_REQUEST);
+		}
+
+		userService.LoginUser(loginRequestDto);
+
+		return new ResponseEntity(BaseResponse.response(StatusCode.OK, ResponseMessage.SUCCESS),
+			HttpStatus.OK);
 	}
 }
