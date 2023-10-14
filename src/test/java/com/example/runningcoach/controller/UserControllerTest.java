@@ -1,5 +1,6 @@
 package com.example.runningcoach.controller;
 
+import com.example.runningcoach.dto.LoginRequestDto;
 import com.example.runningcoach.dto.SignupRequestDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -148,4 +149,137 @@ public class UserControllerTest {
 		assertThat(result.andReturn().getResponse().getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
 	}
 
+	@DisplayName("/users/login 성공 테스트")
+	@Test
+	public void Login() throws Exception {
+		//given
+		SignupRequestDto signupRequestDto = new SignupRequestDto();
+
+		signupRequestDto.setEmail("login1@test.com");
+		signupRequestDto.setNickname("login");
+		signupRequestDto.setPassword("Pwdsqwd12");
+
+		LoginRequestDto loginRequestDto = new LoginRequestDto();
+
+		loginRequestDto.setEmail("login1@test.com");
+		loginRequestDto.setPassword("Pwdsqwd12");
+
+		String signUp = objectMapper.writeValueAsString(signupRequestDto);
+
+		mockMvc.perform(MockMvcRequestBuilders.post("/users/join")
+				.content(signUp)
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON));
+
+		//when
+		String login = objectMapper.writeValueAsString(loginRequestDto);
+
+		ResultActions result = mockMvc
+			.perform(MockMvcRequestBuilders.post("/users/login")
+				.content(login)
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON));
+
+		//then
+		assertThat(result.andReturn().getResponse().getStatus()).isEqualTo(HttpStatus.OK.value());
+	}
+
+	@DisplayName("/users/login 존재하지 않는 이메일 테스트")
+	@Test
+	public void EmailLogin() throws Exception {
+		//given
+		LoginRequestDto loginRequestDto = new LoginRequestDto();
+
+		loginRequestDto.setEmail("loginemail@test.com");
+		loginRequestDto.setPassword("Pwdsqwd12");
+
+		//when
+		String login = objectMapper.writeValueAsString(loginRequestDto);
+
+		ResultActions result = mockMvc
+			.perform(MockMvcRequestBuilders.post("/users/login")
+				.content(login)
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON));
+
+		//then
+		assertThat(result.andReturn().getResponse().getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+	}
+
+	@DisplayName("/users/login 비밀번호 불일치 테스트")
+	@Test
+	public void PwdLogin() throws Exception {
+		//given
+		SignupRequestDto signupRequestDto = new SignupRequestDto();
+
+		signupRequestDto.setEmail("loginpw@test.com");
+		signupRequestDto.setNickname("login");
+		signupRequestDto.setPassword("Pwdsqwd12");
+
+		LoginRequestDto loginRequestDto = new LoginRequestDto();
+
+		loginRequestDto.setEmail("loginpw@test.com");
+		loginRequestDto.setPassword("Pwdsqwd1");
+
+		String signUp = objectMapper.writeValueAsString(signupRequestDto);
+
+		mockMvc.perform(MockMvcRequestBuilders.post("/users/join")
+			.content(signUp)
+			.contentType(MediaType.APPLICATION_JSON)
+			.accept(MediaType.APPLICATION_JSON));
+
+		//when
+		String login = objectMapper.writeValueAsString(loginRequestDto);
+
+		ResultActions result = mockMvc
+			.perform(MockMvcRequestBuilders.post("/users/login")
+				.content(login)
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON));
+
+		//then
+		assertThat(result.andReturn().getResponse().getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+	}
+
+	@DisplayName("/users/login 이메일 빈칸 테스트")
+	@Test
+	public void EmailNullLogin()throws Exception {
+		//given
+		LoginRequestDto loginRequestDto = new LoginRequestDto();
+
+		loginRequestDto.setPassword("Pwdasdf1234");
+
+		//when
+		String login = objectMapper.writeValueAsString(loginRequestDto);
+
+		ResultActions result = mockMvc
+			.perform(MockMvcRequestBuilders.post("/users/login")
+				.content(login)
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON));
+
+		//then
+		assertThat(result.andReturn().getResponse().getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+	}
+
+	@DisplayName("/users/login 비밀번호 빈칸 테스트")
+	@Test
+	public void PwNullLogin()throws Exception {
+		//given
+		LoginRequestDto loginRequestDto = new LoginRequestDto();
+
+		loginRequestDto.setEmail("login1@test.com");
+
+		//when
+		String login = objectMapper.writeValueAsString(loginRequestDto);
+
+		ResultActions result = mockMvc
+			.perform(MockMvcRequestBuilders.post("/users/login")
+				.content(login)
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON));
+
+		//then
+		assertThat(result.andReturn().getResponse().getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+	}
 }
