@@ -342,4 +342,40 @@ public class UserServiceTest {
 		//then
 		assertEquals(throwable.getMessage(), ResponseMessage.NO_EXIST_EMAIL);
 	}
+
+	@Test
+	@DisplayName("회원 탈퇴 성공")
+	public void deleteUser() {
+		//given
+		String email = "delete@test.com";
+
+		SignupRequestDto signupRequestDto = new SignupRequestDto();
+
+		signupRequestDto.setEmail(email);
+		signupRequestDto.setPassword("Pwdasdf1");
+		signupRequestDto.setNickname("delete");
+
+		userService.SignupUser(signupRequestDto);
+
+		//when
+		//then
+		assertDoesNotThrow(() -> {
+			userService.deleteUser(email);
+		});
+	}
+
+	@Test
+	@DisplayName("회원 탈퇴 중 존재하지 않는 이메일")
+	public void deleteUserNoEmail() {
+		//given
+		String email = "delete@test.com";
+
+		//when
+		Throwable throwable = assertThrows(RuntimeException.class, () -> {
+			userService.deleteUser(email);
+		});
+
+		//then
+		assertEquals(throwable.getMessage(), ResponseMessage.NO_EXIST_EMAIL);
+	}
 }
