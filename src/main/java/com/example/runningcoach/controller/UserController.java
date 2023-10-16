@@ -10,7 +10,6 @@ import com.example.runningcoach.response.StatusCode;
 import com.example.runningcoach.service.UserService;
 import jakarta.validation.Valid;
 import java.util.Objects;
-import org.hibernate.sql.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
