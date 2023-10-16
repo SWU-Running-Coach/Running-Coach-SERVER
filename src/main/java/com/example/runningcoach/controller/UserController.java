@@ -85,4 +85,13 @@ public class UserController {
 		return new ResponseEntity(BaseResponse.response(StatusCode.OK, ResponseMessage.SUCCESS),
 			HttpStatus.OK);
 	}
+
+	//TODO: param 대신 jwt 토큰 설정
+	@PatchMapping("/status/{email}")
+	public ResponseEntity deleteUser(@PathVariable String email) {
+		userService.deleteUser(email);
+
+		return new ResponseEntity(BaseResponse.response(StatusCode.OK, ResponseMessage.SUCCESS),
+			HttpStatus.OK);
+	}
 }
