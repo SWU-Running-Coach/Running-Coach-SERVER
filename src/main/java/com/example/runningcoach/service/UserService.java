@@ -116,4 +116,25 @@ public class UserService {
 
 		userRepository.save(new_user);
 	}
+
+	public void deleteUser(String email) {
+		Optional<User> user = userRepository.findByEmail(email);
+
+		//존재하지 않는 이메일
+		if (user.isEmpty()) {
+			throw new NoExistEmailException(ResponseMessage.NO_EXIST_EMAIL);
+		}
+
+		User new_user = User.builder()
+			.userId(user.get().getUserId())
+			.email(user.get().getEmail())
+			.password(user.get().getPassword())
+			.nickname(user.get().getNickname())
+			.image(user.get().getImage())
+			.status(0)
+			.createdDate(user.get().getCreatedDate())
+			.deletedDate(user.get().getDeletedDate()).build();
+
+		userRepository.save(new_user);
+	}
 }
