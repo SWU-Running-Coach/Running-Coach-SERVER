@@ -464,4 +464,49 @@ public class UserControllerTest {
 		//then
 		assertThat(result.andReturn().getResponse().getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
 	}
+
+	@DisplayName("/users/status 회원 탈퇴 성공 테스트")
+	@Test
+	public void deleteUser() throws Exception {
+		//given
+		SignupRequestDto signupRequestDto = new SignupRequestDto();
+
+		String email = "deleteUser@test.com";
+
+		signupRequestDto.setEmail(email);
+		signupRequestDto.setNickname("delete");
+		signupRequestDto.setPassword("Pwdsqwd12");
+
+		String signUp = objectMapper.writeValueAsString(signupRequestDto);
+
+		mockMvc.perform(MockMvcRequestBuilders.post("/users/join")
+			.content(signUp)
+			.contentType(MediaType.APPLICATION_JSON)
+			.accept(MediaType.APPLICATION_JSON));
+
+		//when
+		ResultActions result = mockMvc
+			.perform(MockMvcRequestBuilders.patch("/users/status/{email}", email)
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON));
+
+		//then
+		assertThat(result.andReturn().getResponse().getStatus()).isEqualTo(HttpStatus.OK.value());
+	}
+
+	@DisplayName("/users/status 존재하지 않는 이메일 테스트")
+	@Test
+	public void deleteNoExistEmail() throws Exception {
+		//given
+		String email = "deletenocontrollerno@test.com";
+
+		//when
+		ResultActions result = mockMvc
+			.perform(MockMvcRequestBuilders.patch("/users/status/{email}", email)
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON));
+
+		//then
+		assertThat(result.andReturn().getResponse().getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+	}
 }
