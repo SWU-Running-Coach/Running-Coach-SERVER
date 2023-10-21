@@ -6,6 +6,7 @@ import com.example.runningcoach.entity.Running;
 import com.example.runningcoach.entity.User;
 import com.example.runningcoach.enums.Role;
 import java.time.LocalDateTime;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,8 @@ public class RunningRepositoryTest {
 			.deletedDate(LocalDateTime.now())
 			.role(Role.MEMBER.toString()).build();
 
+		userRepository.save(user);
+
 		//when
 		Running running = Running.builder()
 			.image("image")
@@ -47,8 +50,8 @@ public class RunningRepositoryTest {
 
 		runningRepository.save(running);
 
-		User result = runningRepository.findByUserId(user.getUserId()).get();
-		assertThat(result).isEqualTo(user);
+		List<Running> result = runningRepository.findByUserUserId(user.getUserId());
+		assertThat(result.get(0).getUser()).isEqualTo(user);
 	}
 
 }
