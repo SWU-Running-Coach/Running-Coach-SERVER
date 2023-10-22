@@ -2,13 +2,10 @@ package com.example.runningcoach.service;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import com.example.runningcoach.dto.FrameDto;
 import com.example.runningcoach.dto.RunningRequestDto;
 import com.example.runningcoach.dto.SignupRequestDto;
 import com.example.runningcoach.repository.RunningRepository;
-import java.io.File;
 import java.time.LocalDateTime;
-import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
