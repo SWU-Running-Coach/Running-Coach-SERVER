@@ -67,6 +67,6 @@ public class RunningControllerTest {
 
 		//then
 		assertThat(result.andReturn().getResponse().getStatus()).isEqualTo(
-			HttpStatus.CREATED.value());
+			HttpStatus.SEE_OTHER.value());
 	}
 }
