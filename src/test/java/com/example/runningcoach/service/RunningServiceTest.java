@@ -34,26 +34,25 @@ public class RunningServiceTest {
 		//given
 		SignupRequestDto signupRequestDto = new SignupRequestDto();
 
-		signupRequestDto.setEmail("runningservice@test.com");
+		String email = "runningservice@test.com";
+
+		signupRequestDto.setEmail(email);
 		signupRequestDto.setNickname("running");
 		signupRequestDto.setPassword("TestPwd1");
 		userService.SignupUser(signupRequestDto);
 
 		//when
-		List<FrameDto> frameDto = null;
-
-		FrameDto frameDto1 = new FrameDto();
-		frameDto1.setFile(new File("src/main/resources/testRunning.jpg"));
-		frameDto1.setIdx(0);
-		frameDto.add(frameDto1);
-
 		RunningRequestDto runningRequestDto = new RunningRequestDto();
+
+		runningRequestDto.setImage("test_img_url");
 		runningRequestDto.setDateTime(LocalDateTime.now());
-		runningRequestDto.setFrames(frameDto);
+		runningRequestDto.setCadence(40);
+		runningRequestDto.setLegAngle(155.2);
+		runningRequestDto.setUppderBodyAngle(12.4);
 
 		//then
 		assertDoesNotThrow(() -> {
-			runningService.runningAnalyze(runningRequestDto);
+			runningService.runningAnalyze(runningRequestDto, email);
 		});
 
 	}
