@@ -54,4 +54,49 @@ public class RunningRepositoryTest {
 		assertThat(result.get(0).getUser()).isEqualTo(user);
 	}
 
+	@Test
+	@DisplayName("이메일과 datetime로 조회 테스트")
+	public void findByDatetime() {
+		//given
+		String email = "datetime@test.com";
+		LocalDateTime localDateTime = LocalDateTime.now();
+
+		User user = User.builder()
+			.email(email)
+			.password("1234")
+			.nickname("running")
+			.image("image")
+			.status(1)
+			.createdDate(LocalDateTime.now())
+			.deletedDate(LocalDateTime.now())
+			.role(Role.MEMBER.toString()).build();
+
+		userRepository.save(user);
+
+		//when
+		Running running = Running.builder()
+			.image("image")
+			.cadence(10)
+			.legAngle(150.1)
+			.uppderBodyAngle(13)
+			.dateTime(localDateTime)
+			.user(user).build();
+
+		runningRepository.save(running);
+
+		Running running2 = Running.builder()
+			.image("image")
+			.cadence(4)
+			.legAngle(155.5)
+			.uppderBodyAngle(3)
+			.dateTime(LocalDateTime.now())
+			.user(user).build();
+
+		runningRepository.save(running2);
+
+
+		List<Running> result = runningRepository.findByEmailAndDateTime(email, localDateTime);
+		assertThat(result.get(0).getUser()).isEqualTo(user);
+	}
+
 }
