@@ -80,4 +80,50 @@ public class RunningServiceTest {
 		assertEquals(throwable.getMessage(), ResponseMessage.NO_EXIST_EMAIL);
 	}
 
+	@Test
+	@DisplayName("피드백 조회 성공 테스트")
+	public void getFeedbackTest() {
+		//given
+		SignupRequestDto signupRequestDto = new SignupRequestDto();
+
+		String email = "getFeedback@test.com";
+
+		signupRequestDto.setEmail(email);
+		signupRequestDto.setNickname("running");
+		signupRequestDto.setPassword("TestPwd1");
+		userService.SignupUser(signupRequestDto);
+
+		//when
+		RunningRequestDto runningRequestDto = new RunningRequestDto();
+
+		LocalDateTime dateTime = LocalDateTime.now();
+
+		runningRequestDto.setImage("test_img_url");
+		runningRequestDto.setDateTime(dateTime);
+		runningRequestDto.setCadence(40);
+		runningRequestDto.setLegAngle(155.2);
+		runningRequestDto.setUppderBodyAngle(12.4);
+
+		//then
+		RunningResponseDto runningResponseDto = runningService.getFeedback(email, dateTime);
+
+		assertEquals(runningResponseDto.getCadence(), runningRequestDto.getCadence());
+		assertEquals(runningResponseDto.getLegAngle(), runningRequestDto.getLegAngle());
+		assertEquals(runningResponseDto.getUpperBodyAngle(), runningRequestDto.getUppderBodyAngle());
+	}
+
+	@Test
+	@DisplayName("피드백 조회 실패 테스트(존재하지 않는 이메일)")
+	public void getFeedbackTest() {
+		//given
+		String email = "NOgetFeedback@test.com";
+		LocalDateTime localDateTime = LocalDateTime.now();
+
+		//when
+		Throwable throwable = assertThrows(RuntimeException.class, () -> {
+			runningService.getFeedback(email, localDateTime);
+		});
+		//then
+		assertEquals(throwable.getMessage(), ResponseMessage.NO_EXIST_EMAIL);
+	}
 }
