@@ -105,6 +105,7 @@ public class RunningServiceTest {
 		runningRequestDto.setLegAngle(155.2);
 		runningRequestDto.setUppderBodyAngle(12.4);
 
+		runningService.runningAnalyze(runningRequestDto, email);
 		//then
 		RunningResponseDto runningResponseDto = runningService.getFeedback(email, dateTime);
 
