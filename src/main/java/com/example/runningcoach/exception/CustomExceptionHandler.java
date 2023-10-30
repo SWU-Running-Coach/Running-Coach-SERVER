@@ -4,6 +4,7 @@ import com.example.runningcoach.exception.custom.EmptyException;
 import com.example.runningcoach.exception.custom.FailLoginException;
 import com.example.runningcoach.exception.custom.LeaveUserException;
 import com.example.runningcoach.exception.custom.NoExistEmailException;
+import com.example.runningcoach.exception.custom.NoExistValueException;
 import com.example.runningcoach.exception.custom.SamePasswordException;
 import com.example.runningcoach.exception.custom.UserConflictException;
 import com.example.runningcoach.response.BaseResponse;
@@ -56,6 +57,13 @@ public class CustomExceptionHandler {
 
 	@ExceptionHandler
 	public ResponseEntity handleSamePasswordException(SamePasswordException e) {
+		return new ResponseEntity(
+			BaseResponse.response(StatusCode.BAD_REQUEST, e.getMessage()),
+			HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler
+	public ResponseEntity handleNoExistValueException(NoExistValueException e) {
 		return new ResponseEntity(
 			BaseResponse.response(StatusCode.BAD_REQUEST, e.getMessage()),
 			HttpStatus.BAD_REQUEST);

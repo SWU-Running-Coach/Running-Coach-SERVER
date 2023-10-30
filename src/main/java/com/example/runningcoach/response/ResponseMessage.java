@@ -23,4 +23,6 @@ public class ResponseMessage {
     public static final String SAME_PASSWORD = "이전과 동일한 비밀번호입니다";
 
     public static final String BAD_REQUEST = "잘못된 요청입니다";
+
+    public static final String NO_EXIST_VALUE = "값이 존재하지 않습니다";
 }
