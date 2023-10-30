@@ -69,4 +69,53 @@ public class RunningControllerTest {
 		assertThat(result.andReturn().getResponse().getStatus()).isEqualTo(
 			HttpStatus.SEE_OTHER.value());
 	}
+
+	@DisplayName("/feedback?datetime=YYYY-MM-DDTHH:MM:SS&email=email@emai.com 성공 테스트")
+	@Test
+	public void successFeedback() throws Exception {
+		//given
+		SignupRequestDto signupRequestDto = new SignupRequestDto();
+
+		String email = "feedbackcontroller@test.com";
+
+		signupRequestDto.setEmail(email);
+		signupRequestDto.setNickname("controller1");
+		signupRequestDto.setPassword("Controller23");
+
+		String SignUpData = objectMapper.writeValueAsString(signupRequestDto);
+
+		mockMvc.perform(MockMvcRequestBuilders.post("/users/join")
+			.content(SignUpData)
+			.contentType(MediaType.APPLICATION_JSON)
+			.accept(MediaType.APPLICATION_JSON));
+
+		//when
+		RunningRequestDto runningRequestDto = new RunningRequestDto();
+
+		LocalDateTime localDateTime = LocalDateTime.now();
+		runningRequestDto.setImage("test_img_url");
+		runningRequestDto.setDateTime(localDateTime);
+		runningRequestDto.setCadence(40);
+		runningRequestDto.setLegAngle(155.2);
+		runningRequestDto.setUppderBodyAngle(12.4);
+
+		String RunningData = objectMapper.writeValueAsString(runningRequestDto);
+
+		mockMvc.perform(MockMvcRequestBuilders.post("/running/{email}", email)
+				.content(RunningData)
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON));
+
+
+		ResultActions result = mockMvc.perform(MockMvcRequestBuilders.get("/feedback")
+			.param("datetime", String.valueOf(localDateTime))
+			.param("email", email)
+			.contentType(MediaType.APPLICATION_JSON)
+			.accept(MediaType.APPLICATION_JSON));
+
+		//then
+		assertThat(result.andReturn().getResponse().getStatus()).isEqualTo(
+			HttpStatus.OK.value());
+	}
+
 }
