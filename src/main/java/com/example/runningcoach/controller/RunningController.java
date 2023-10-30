@@ -1,6 +1,7 @@
 package com.example.runningcoach.controller;
 
 import com.example.runningcoach.dto.RunningRequestDto;
+import com.example.runningcoach.dto.RunningResponseDto;
 import com.example.runningcoach.response.BaseResponse;
 import com.example.runningcoach.response.ResponseMessage;
 import com.example.runningcoach.response.StatusCode;
@@ -47,9 +48,10 @@ public class RunningController {
 	public ResponseEntity feedback (@RequestParam (value = "datetime", required = true) LocalDateTime dateTime,
 	@RequestParam (value = "email", required = true) String email) {
 
-		//TODO: 구현 필요
+		RunningResponseDto runningResponseDto = runningService.getFeedback(email, dateTime);
+
 		return new ResponseEntity(
-			BaseResponse.response(StatusCode.OK, ResponseMessage.SUCCESS),
+			BaseResponse.response(StatusCode.OK, ResponseMessage.SUCCESS, runningResponseDto),
 			HttpStatus.OK
 		);
 	}
