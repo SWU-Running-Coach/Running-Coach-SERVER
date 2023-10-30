@@ -94,9 +94,10 @@ public class RunningRepositoryTest {
 
 		runningRepository.save(running2);
 
-
-		List<Running> result = runningRepository.findByEmailAndDateTime(email, localDateTime);
-		assertThat(result.get(0).getUser()).isEqualTo(user);
+		List<Running> result = runningRepository.findByUserEmailAndDateTime(email, localDateTime);
+		assertThat(result.get(0).getCadence()).isEqualTo(running.getCadence());
+		assertThat(result.get(0).getLegAngle()).isEqualTo(running.getLegAngle());
+		assertThat(result.get(0).getUppderBodyAngle()).isEqualTo(running.getUppderBodyAngle());
 	}
 
 }
