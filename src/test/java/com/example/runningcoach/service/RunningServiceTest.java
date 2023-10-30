@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.example.runningcoach.dto.RunningRequestDto;
+import com.example.runningcoach.dto.RunningResponseDto;
 import com.example.runningcoach.dto.SignupRequestDto;
 import com.example.runningcoach.repository.RunningRepository;
 import com.example.runningcoach.response.ResponseMessage;
@@ -114,7 +115,7 @@ public class RunningServiceTest {
 
 	@Test
 	@DisplayName("피드백 조회 실패 테스트(존재하지 않는 이메일)")
-	public void getFeedbackTest() {
+	public void NogetFeedbackTest() {
 		//given
 		String email = "NOgetFeedback@test.com";
 		LocalDateTime localDateTime = LocalDateTime.now();
