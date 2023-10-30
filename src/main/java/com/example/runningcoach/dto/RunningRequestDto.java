@@ -11,6 +11,7 @@ public class RunningRequestDto {
 	private String image;
 	private int cadence;
 	private double legAngle;
+	//TODO: 오타 수정
 	private double uppderBodyAngle;
 	private LocalDateTime dateTime;
 }
