@@ -1,5 +1,6 @@
 package com.example.runningcoach.service;
 
+import com.example.runningcoach.dto.FeedbackByMonthResponseDto;
 import com.example.runningcoach.dto.RunningRequestDto;
 import com.example.runningcoach.dto.RunningResponseDto;
 import com.example.runningcoach.entity.Running;
@@ -10,6 +11,7 @@ import com.example.runningcoach.repository.RunningRepository;
 import com.example.runningcoach.repository.UserRepository;
 import com.example.runningcoach.response.ResponseMessage;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,5 +70,32 @@ public class RunningService {
 		runningResponseDto.setDateTime(running.getDateTime());
 
 		return runningResponseDto;
+	}
+
+	public List<FeedbackByMonthResponseDto> getFeedbackByMonth(String email, LocalDateTime localDateTime) {
+		Optional<User> user = userRepository.findByEmail(email);
+
+		//존재하지 않는 이메일
+		if (user.isEmpty()) {
+			throw new NoExistEmailException(ResponseMessage.NO_EXIST_EMAIL);
+		}
+
+		List<Running> result = runningRepository.findByDateTimeMonthAndUserEmail(localDateTime.getMonthValue(), email);
+
+		if (result.isEmpty()) {
+			throw new NoExistValueException(ResponseMessage.NO_EXIST_VALUE);
+		}
+
+		List<FeedbackByMonthResponseDto> feedbackByMonthResponseDtos = new ArrayList<>();
+
+		for (Running entity : result) {
+			FeedbackByMonthResponseDto dto = new FeedbackByMonthResponseDto();
+
+			dto.setDate(entity.getDateTime());
+
+			feedbackByMonthResponseDtos.add(dto);
+		}
+
+		return feedbackByMonthResponseDtos;
 	}
 }
