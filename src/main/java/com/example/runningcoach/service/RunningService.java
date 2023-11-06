@@ -1,5 +1,6 @@
 package com.example.runningcoach.service;
 
+import com.example.runningcoach.dto.FeedbackByMonthDayResponseDto;
 import com.example.runningcoach.dto.FeedbackByMonthResponseDto;
 import com.example.runningcoach.dto.RunningRequestDto;
 import com.example.runningcoach.dto.RunningResponseDto;
@@ -99,7 +100,7 @@ public class RunningService {
 		return feedbackByMonthResponseDtos;
 	}
 
-	public List<FeedbackByMonthResponseDto> getFeedbackByMonthAndDay(String email, int year, int month, int day) {
+	public List<FeedbackByMonthDayResponseDto> getFeedbackByMonthAndDay(String email, int year, int month, int day) {
 		Optional<User> user = userRepository.findByEmail(email);
 
 		//존재하지 않는 이메일
@@ -113,16 +114,22 @@ public class RunningService {
 			throw new NoExistValueException(ResponseMessage.NO_EXIST_VALUE);
 		}
 
-		List<FeedbackByMonthResponseDto> feedbackByMonthResponseDtos = new ArrayList<>();
+		List<FeedbackByMonthDayResponseDto> feedbackByMonthDayResponseDtos = new ArrayList<>();
 
+		int i = 0;
 		for (Running entity : result) {
-			FeedbackByMonthResponseDto dto = new FeedbackByMonthResponseDto();
+			FeedbackByMonthDayResponseDto dto = new FeedbackByMonthDayResponseDto();
 
-			dto.setDate(entity.getDateTime());
+			dto.setIdx(i);
+			dto.setImage(entity.getImage());
+			dto.setCadence(entity.getCadence());
+			dto.setLegAngle(entity.getLegAngle());
+			dto.setUpperBodyAngle(entity.getUppderBodyAngle());
 
-			feedbackByMonthResponseDtos.add(dto);
+			feedbackByMonthDayResponseDtos.add(dto);
+			i++;
 		}
 
-		return feedbackByMonthResponseDtos;
+		return feedbackByMonthDayResponseDtos;
 	}
 }

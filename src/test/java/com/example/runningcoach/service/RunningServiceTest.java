@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.example.runningcoach.dto.FeedbackByMonthDayResponseDto;
 import com.example.runningcoach.dto.FeedbackByMonthResponseDto;
 import com.example.runningcoach.dto.RunningRequestDto;
 import com.example.runningcoach.dto.RunningResponseDto;
@@ -225,10 +226,10 @@ public class RunningServiceTest {
 		runningService.runningAnalyze(runningRequestDto2, email);
 
 		//then
-		List<FeedbackByMonthResponseDto> feedbackByMonth = runningService.getFeedbackByMonthAndDay(email, dateTime.getYear(), dateTime.getMonthValue(), dateTime.getDayOfMonth());
+		List<FeedbackByMonthDayResponseDto> feedbackByMonth = runningService.getFeedbackByMonthAndDay(email, dateTime.getYear(), dateTime.getMonthValue(), dateTime.getDayOfMonth());
 
-		assertEquals(runningRequestDto.getDateTime(), feedbackByMonth.get(0).getDate());
-		assertEquals(runningRequestDto2.getDateTime(), feedbackByMonth.get(1).getDate());
+		assertEquals(runningRequestDto.getImage(), feedbackByMonth.get(0).getImage());
+		assertEquals(runningRequestDto2.getImage(), feedbackByMonth.get(1).getImage());
 	}
 
 	@Test
