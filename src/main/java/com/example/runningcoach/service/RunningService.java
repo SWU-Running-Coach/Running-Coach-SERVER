@@ -98,4 +98,31 @@ public class RunningService {
 
 		return feedbackByMonthResponseDtos;
 	}
+
+	public List<FeedbackByMonthResponseDto> getFeedbackByMonthAndDay(String email, int year, int month, int day) {
+		Optional<User> user = userRepository.findByEmail(email);
+
+		//존재하지 않는 이메일
+		if (user.isEmpty()) {
+			throw new NoExistEmailException(ResponseMessage.NO_EXIST_EMAIL);
+		}
+
+		List<Running> result = runningRepository.findByDateTimeYearAndMonthAndDayAndUserEmail(year, month, day, email);
+
+		if (result.isEmpty()) {
+			throw new NoExistValueException(ResponseMessage.NO_EXIST_VALUE);
+		}
+
+		List<FeedbackByMonthResponseDto> feedbackByMonthResponseDtos = new ArrayList<>();
+
+		for (Running entity : result) {
+			FeedbackByMonthResponseDto dto = new FeedbackByMonthResponseDto();
+
+			dto.setDate(entity.getDateTime());
+
+			feedbackByMonthResponseDtos.add(dto);
+		}
+
+		return feedbackByMonthResponseDtos;
+	}
 }
