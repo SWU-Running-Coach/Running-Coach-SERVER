@@ -167,7 +167,7 @@ public class RunningServiceTest {
 		runningService.runningAnalyze(runningRequestDto2, email);
 
 		//then
-		List<FeedbackByMonthResponseDto> feedbackByMonth = runningService.getFeedbackByMonth(email, dateTime);
+		List<FeedbackByMonthResponseDto> feedbackByMonth = runningService.getFeedbackByMonth(email, dateTime.getYear(), dateTime.getMonthValue());
 
 		assertEquals(runningRequestDto.getDateTime(), feedbackByMonth.get(0).getDate());
 		assertEquals(runningRequestDto2.getDateTime(), feedbackByMonth.get(1).getDate());
@@ -182,7 +182,7 @@ public class RunningServiceTest {
 
 		//when
 		Throwable throwable = assertThrows(RuntimeException.class, () -> {
-			runningService.getFeedbackByMonth(email, localDateTime);
+			runningService.getFeedbackByMonth(email, localDateTime.getYear(), localDateTime.getMonthValue());
 		});
 		//then
 		assertEquals(throwable.getMessage(), ResponseMessage.NO_EXIST_EMAIL);

@@ -72,7 +72,7 @@ public class RunningService {
 		return runningResponseDto;
 	}
 
-	public List<FeedbackByMonthResponseDto> getFeedbackByMonth(String email, LocalDateTime localDateTime) {
+	public List<FeedbackByMonthResponseDto> getFeedbackByMonth(String email, int year, int month) {
 		Optional<User> user = userRepository.findByEmail(email);
 
 		//존재하지 않는 이메일
@@ -80,7 +80,7 @@ public class RunningService {
 			throw new NoExistEmailException(ResponseMessage.NO_EXIST_EMAIL);
 		}
 
-		List<Running> result = runningRepository.findByDateTimeMonthAndUserEmail(localDateTime.getMonthValue(), email);
+		List<Running> result = runningRepository.findByDateTimeYearAndMonthAndUserEmail(year, month, email);
 
 		if (result.isEmpty()) {
 			throw new NoExistValueException(ResponseMessage.NO_EXIST_VALUE);
