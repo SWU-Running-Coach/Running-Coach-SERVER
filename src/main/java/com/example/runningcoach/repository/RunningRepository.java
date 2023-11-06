@@ -18,4 +18,7 @@ public interface RunningRepository extends JpaRepository<Running, Long> {
 	@Query("SELECT r FROM Running r WHERE EXTRACT(MONTH FROM r.dateTime) = :month AND EXTRACT(YEAR FROM r.dateTime) = :year AND r.user.email = :email")
 	List<Running> findByDateTimeYearAndMonthAndUserEmail(@Param("year") int year, @Param("month") int month, @Param("email")String email);
 
+	@Query("SELECT r FROM Running r WHERE EXTRACT(MONTH FROM r.dateTime) = :month AND EXTRACT(YEAR FROM r.dateTime) = :year AND EXTRACT(DAY FROM r.dateTime) = :day AND r.user.email = :email")
+	List<Running> findByDateTimeYearAndMonthAndDayAndUserEmail(@Param("year") int year, @Param("month") int month, @Param("day") int day, @Param("email")String email);
+
 }
