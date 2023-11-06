@@ -4,12 +4,14 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.example.runningcoach.dto.FeedbackByMonthResponseDto;
 import com.example.runningcoach.dto.RunningRequestDto;
 import com.example.runningcoach.dto.RunningResponseDto;
 import com.example.runningcoach.dto.SignupRequestDto;
 import com.example.runningcoach.repository.RunningRepository;
 import com.example.runningcoach.response.ResponseMessage;
 import java.time.LocalDateTime;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -165,10 +167,10 @@ public class RunningServiceTest {
 		runningService.runningAnalyze(runningRequestDto2, email);
 
 		//then
-		List<FeedbackByMonthResponse> feedbackByMonth = runningService.getFeedbackByMonth(email, dateTime);
+		List<FeedbackByMonthResponseDto> feedbackByMonth = runningService.getFeedbackByMonth(email, dateTime);
 
-		assertEquals(runningRequestDto.getDateTime(), feedbackByMonth.get(0).getDateTime());
-		assertEquals(runningRequestDto2.getDateTime(), feedbackByMonth.get(1).getDateTime());
+		assertEquals(runningRequestDto.getDateTime(), feedbackByMonth.get(0).getDate());
+		assertEquals(runningRequestDto2.getDateTime(), feedbackByMonth.get(1).getDate());
 	}
 
 	@Test
