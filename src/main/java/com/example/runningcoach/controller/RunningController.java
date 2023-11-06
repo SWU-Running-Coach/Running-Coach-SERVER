@@ -1,5 +1,6 @@
 package com.example.runningcoach.controller;
 
+import com.example.runningcoach.dto.FeedbackByMonthResponseDto;
 import com.example.runningcoach.dto.RunningRequestDto;
 import com.example.runningcoach.dto.RunningResponseDto;
 import com.example.runningcoach.response.BaseResponse;
@@ -8,7 +9,7 @@ import com.example.runningcoach.response.StatusCode;
 import com.example.runningcoach.service.RunningService;
 import java.net.URI;
 import java.time.LocalDateTime;
-import lombok.Getter;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -52,6 +53,19 @@ public class RunningController {
 
 		return new ResponseEntity(
 			BaseResponse.response(StatusCode.OK, ResponseMessage.SUCCESS, runningResponseDto),
+			HttpStatus.OK
+		);
+	}
+
+	//TODO: param 대신 jwt 토큰 설정
+	@GetMapping("/calender")
+	public ResponseEntity getFeedbackByMonth(@RequestParam(value = "y", required = true) int year, @RequestParam(value = "m", required = true) int month,
+		@RequestParam(value = "email", required = true) String email) {
+
+		List<FeedbackByMonthResponseDto> responseDtos = runningService.getFeedbackByMonth(email, year, month);
+
+		return new ResponseEntity(
+			BaseResponse.response(StatusCode.OK, ResponseMessage.SUCCESS, responseDtos),
 			HttpStatus.OK
 		);
 	}
