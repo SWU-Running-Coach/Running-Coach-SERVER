@@ -140,7 +140,7 @@ public class RunningRepositoryTest {
 
 		runningRepository.save(running2);
 
-		List<Running> result = runningRepository.findByDateTimeMonthAndEmail(localDateTime.getDayOfMonth(), email);
+		List<Running> result = runningRepository.findByDateTimeMonthAndUserEmail(localDateTime.getMonthValue(), email);
 
 		assertThat(running).isEqualTo(result.get(0));
 		assertThat(running2).isEqualTo(result.get(1));
