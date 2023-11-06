@@ -128,4 +128,61 @@ public class RunningServiceTest {
 		//then
 		assertEquals(throwable.getMessage(), ResponseMessage.NO_EXIST_EMAIL);
 	}
+
+	@Test
+	@DisplayName("월 별 피드백 조회 성공 테스트")
+	public void getFeedbackByMonthTest() {
+		//given
+		SignupRequestDto signupRequestDto = new SignupRequestDto();
+
+		String email = "getFeedbackmonth@test.com";
+
+		signupRequestDto.setEmail(email);
+		signupRequestDto.setNickname("running");
+		signupRequestDto.setPassword("TestPwd1");
+		userService.SignupUser(signupRequestDto);
+
+		//when
+		RunningRequestDto runningRequestDto = new RunningRequestDto();
+
+		LocalDateTime dateTime = LocalDateTime.now();
+
+		runningRequestDto.setImage("test_img_url");
+		runningRequestDto.setDateTime(dateTime);
+		runningRequestDto.setCadence(40);
+		runningRequestDto.setLegAngle(155.2);
+		runningRequestDto.setUppderBodyAngle(12.4);
+
+		RunningRequestDto runningRequestDto2 = new RunningRequestDto();
+
+		runningRequestDto2.setImage("test");
+		runningRequestDto2.setCadence(55);
+		runningRequestDto2.setLegAngle(156);
+		runningRequestDto2.setUppderBodyAngle(10);
+		runningRequestDto2.setDateTime(LocalDateTime.now());
+
+		runningService.runningAnalyze(runningRequestDto, email);
+		runningService.runningAnalyze(runningRequestDto2, email);
+
+		//then
+		List<FeedbackByMonthResponse> feedbackByMonth = runningService.getFeedbackByMonth(email, dateTime);
+
+		assertEquals(runningRequestDto.getDateTime(), feedbackByMonth.get(0).getDateTime());
+		assertEquals(runningRequestDto2.getDateTime(), feedbackByMonth.get(1).getDateTime());
+	}
+
+	@Test
+	@DisplayName("월 별 피드백 조회 실패 테스트(존재하지 않는 이메일)")
+	public void NogetFeedbackByMonthTest() {
+		//given
+		String email = "NOgetFeedback@test.com";
+		LocalDateTime localDateTime = LocalDateTime.now();
+
+		//when
+		Throwable throwable = assertThrows(RuntimeException.class, () -> {
+			runningService.getFeedbackByMonth(email, localDateTime);
+		});
+		//then
+		assertEquals(throwable.getMessage(), ResponseMessage.NO_EXIST_EMAIL);
+	}
 }
