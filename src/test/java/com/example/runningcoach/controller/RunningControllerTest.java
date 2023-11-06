@@ -118,4 +118,68 @@ public class RunningControllerTest {
 			HttpStatus.OK.value());
 	}
 
+	@DisplayName("/calender?y=2023&m=11&email=email@emai.com 성공 테스트")
+	@Test
+	public void successFeedbackByMonth() throws Exception {
+		//given
+		SignupRequestDto signupRequestDto = new SignupRequestDto();
+
+		String email = "feedbackbyEmailr@test.com";
+
+		signupRequestDto.setEmail(email);
+		signupRequestDto.setNickname("controller1");
+		signupRequestDto.setPassword("Controller23");
+
+		String SignUpData = objectMapper.writeValueAsString(signupRequestDto);
+
+		mockMvc.perform(MockMvcRequestBuilders.post("/users/join")
+			.content(SignUpData)
+			.contentType(MediaType.APPLICATION_JSON)
+			.accept(MediaType.APPLICATION_JSON));
+
+		//when
+		RunningRequestDto runningRequestDto = new RunningRequestDto();
+
+		LocalDateTime localDateTime = LocalDateTime.now();
+		runningRequestDto.setImage("test_img_url");
+		runningRequestDto.setDateTime(localDateTime);
+		runningRequestDto.setCadence(40);
+		runningRequestDto.setLegAngle(155.2);
+		runningRequestDto.setUppderBodyAngle(12.4);
+
+		String RunningData = objectMapper.writeValueAsString(runningRequestDto);
+
+		mockMvc.perform(MockMvcRequestBuilders.post("/running/{email}", email)
+			.content(RunningData)
+			.contentType(MediaType.APPLICATION_JSON)
+			.accept(MediaType.APPLICATION_JSON));
+
+		RunningRequestDto runningRequestDto2 = new RunningRequestDto();
+
+		LocalDateTime localDateTime2 = LocalDateTime.now();
+		runningRequestDto.setImage("test_img_url2");
+		runningRequestDto.setDateTime(localDateTime2);
+		runningRequestDto.setCadence(41);
+		runningRequestDto.setLegAngle(153.2);
+		runningRequestDto.setUppderBodyAngle(11.4);
+
+		String RunningData2 = objectMapper.writeValueAsString(runningRequestDto2);
+
+		mockMvc.perform(MockMvcRequestBuilders.post("/running/{email}", email)
+			.content(RunningData2)
+			.contentType(MediaType.APPLICATION_JSON)
+			.accept(MediaType.APPLICATION_JSON));
+
+
+		//then
+		ResultActions result = mockMvc.perform(MockMvcRequestBuilders.get("/calender")
+			.param("y", String.valueOf(localDateTime.getYear()))
+			.param("m", String.valueOf(localDateTime.getMonthValue()))
+			.param("email", email)
+			.contentType(MediaType.APPLICATION_JSON)
+			.accept(MediaType.APPLICATION_JSON));
+
+		assertThat(result.andReturn().getResponse().getStatus()).isEqualTo(
+			HttpStatus.OK.value());
+	}
 }
