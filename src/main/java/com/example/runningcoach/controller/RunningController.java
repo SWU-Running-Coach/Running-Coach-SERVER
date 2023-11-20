@@ -1,5 +1,6 @@
 package com.example.runningcoach.controller;
 
+import com.example.runningcoach.dto.FeedbackByMonthDayResponseDto;
 import com.example.runningcoach.dto.FeedbackByMonthResponseDto;
 import com.example.runningcoach.dto.RunningRequestDto;
 import com.example.runningcoach.dto.RunningResponseDto;
@@ -69,4 +70,17 @@ public class RunningController {
 			HttpStatus.OK
 		);
 	}
+
+	@GetMapping("/calender/feedback")
+	public ResponseEntity getFeedbackByDay(@RequestParam(value = "y", required = true) int year, @RequestParam(value = "m", required = true) int month, @RequestParam(value = "d", required = true) int day,
+		@RequestParam(value = "email", required = true) String email) {
+
+		List<FeedbackByMonthDayResponseDto> feedbackByMonthDayResponseDtos = runningService.getFeedbackByMonthAndDay(email, year, month, day);
+
+		return new ResponseEntity(
+			BaseResponse.response(StatusCode.OK, ResponseMessage.SUCCESS, feedbackByMonthDayResponseDtos),
+			HttpStatus.OK
+		);
+	}
+
 }

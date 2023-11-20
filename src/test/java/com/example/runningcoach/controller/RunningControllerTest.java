@@ -237,7 +237,7 @@ public class RunningControllerTest {
 
 
 		//then
-		ResultActions result = mockMvc.perform(MockMvcRequestBuilders.get("/calender")
+		ResultActions result = mockMvc.perform(MockMvcRequestBuilders.get("/calender/feedback")
 			.param("y", String.valueOf(localDateTime.getYear()))
 			.param("m", String.valueOf(localDateTime.getMonthValue()))
 			.param("d", String.valueOf(localDateTime.getDayOfMonth()))
