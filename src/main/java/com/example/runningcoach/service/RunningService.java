@@ -41,7 +41,9 @@ public class RunningService {
 			.cadence(runningRequestDto.getCadence())
 			.uppderBodyAngle(runningRequestDto.getUppderBodyAngle())
 			.legAngle(runningRequestDto.getLegAngle())
-			.dateTime(runningRequestDto.getDateTime()).build();
+			.dateTime(runningRequestDto.getDateTime())
+			.feedback_body(runningRequestDto.getFeedback_body())
+			.feedback_leg(runningRequestDto.getFeedback_leg()).build();
 
 		runningRepository.save(running);
 	}
