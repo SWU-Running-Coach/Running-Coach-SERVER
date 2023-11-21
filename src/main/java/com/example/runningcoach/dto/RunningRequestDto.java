@@ -14,5 +14,7 @@ public class RunningRequestDto {
 	//TODO: 오타 수정
 	private double uppderBodyAngle;
 	private LocalDateTime dateTime;
+	private String feedback_leg;
+	private String feedback_body;
 }
 

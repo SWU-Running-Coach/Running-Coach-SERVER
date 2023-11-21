@@ -39,5 +39,7 @@ public class Running {
 	private double uppderBodyAngle;
 
 	private LocalDateTime dateTime;
+	private String feedback_leg;
+	private String feedback_body;
 
 }
